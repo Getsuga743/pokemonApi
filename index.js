@@ -1,18 +1,25 @@
 import * as api from "./src/api/pokedex.js";
-window.addEventListener("load", () => {
-  api.PokemonPagination().then((x) => {
-    console.log(x);
-    return (document.querySelector("#count").textContent = x.count);
-  });
-  document.querySelector("#count").textContent = pagination.count;
-  e.preventDefault();
+import { Pokemon } from "./src/ui/Pokemon.js";
+import { renderCards } from "./src/ui/PokemonCard.js";
+const $pageLink = document.querySelector(".page-link");
+let next;
+api.PokemonPagination("pokemon/").then((x) => {
+  console.log(x)
+  api
+    .PokemonPerPage(x.results)
+    .then((pokemons) =>
+      pokemons.map((pokemon) => {
+        return new Pokemon(
+          pokemon.id,
+          pokemon.name,
+          pokemon.abilities,
+          pokemon.stats,
+          pokemon.types,
+          pokemon.sprites.front_default,
+        );
+      }),
+    )
+    .then((pokemons) => {
+      return renderCards(pokemons);
+    });
 });
-
-// const iniciar = () => {
-//   api
-//     .fetchResource(["pokemon"])
-//     .then((x) => console.log(x, "index"))
-//     .catch((err) => console.log(err));
-//   api.getPokemonsList("pokemon").then((x) => console.log(x, "index"));
-// };
-// iniciar();

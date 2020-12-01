@@ -9,45 +9,36 @@ async function getPokemonsList(resource) {
   return fetchJson;
 }
 
-async function fetchResource(resources) {
-  const [re1, ...args] = resources;
-  console.log(re1);
-  console.log(args || "");
-  let response = undefined;
-  if (re1 && args.length != 0) {
-    const resourcesForFetching = args.map((el, index) => {
-      if (index === args.length - 1) {
-        return el.toString();
-      }
-      return el.toString() + "/";
-    });
-    console.log(resourcesForFetching);
-    response = await fetch(
-      `https://pokeapi.co/api/v2/${re1}/${resourcesForFetching}`,
-    );
-    response = await response.json();
-    console.log(response);
-  } else {
-    response = await fetch(`https://pokeapi.co/api/v2/${re1}`);
-    response = await response.json();
-  }
+async function fetchResource(url) {
+  let response = await fetch(`https://pokeapi.co/api/v2/${url}`);
+  response = await response.json();
   return response;
 }
 
+const PokemonPagination = async (url) => {
+  let fetch = await fetchResource(url);
 
-
-
-const PokemonPagination = async () => {
-  let fetch = await f etchResource(["pokemon"]);
   const {
     count,
     pagination = { next: fetch.next, previous: fetch.previous },
-    result,
+    results,
   } = fetch;
-  const page = { count, pagination, result };
+  const page = { count, pagination, results };
   return page;
 };
-const PokemonPerPage = async (page) => {
-  await Promise.all(page);
+
+const PokemonPerPage = async (pageResults) => {
+  let results = await Promise.all(
+    pageResults.map((e) => {
+      return fetch(e.url);
+    }),
+  );
+  results = await Promise.all(
+    results.map((e) => {
+      return e.json();
+    }),
+  );
+  return results;
 };
+
 export { fetchResource, getPokemonsList, PokemonPagination, PokemonPerPage };
