@@ -1,10 +1,9 @@
-const Base_Url = "https://pokeapi.co/api/v2/";
+// const Base_Url = 'https://pokeapi.co/api/v2/';
 
 //lista pokemons
 async function getPokemonsList(resource) {
   const response = await fetch(`https://pokeapi.co/api/v2/${resource}/
   `);
-  console.log(`https://pokeapi.co/api/v2/${resource}/`);
   const fetchJson = await response.json();
   return fetchJson;
 }
@@ -16,8 +15,7 @@ async function fetchResource(url) {
 }
 
 const PokemonPagination = async (url) => {
-  let fetch = await fetchResource(url);
-
+  const fetch = await fetchResource(url);
   const {
     count,
     pagination = { next: fetch.next, previous: fetch.previous },
@@ -29,16 +27,13 @@ const PokemonPagination = async (url) => {
 
 const PokemonPerPage = async (pageResults) => {
   let results = await Promise.all(
-    pageResults.map((e) => {
-      return fetch(e.url);
-    }),
+    pageResults.map((e) => fetch(e.url)),
   );
   results = await Promise.all(
-    results.map((e) => {
-      return e.json();
-    }),
-  );
+    results.map((e) => e.json()));
   return results;
 };
 
-export { fetchResource, getPokemonsList, PokemonPagination, PokemonPerPage };
+export {
+  fetchResource, getPokemonsList, PokemonPagination, PokemonPerPage,
+};

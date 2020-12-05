@@ -1,3 +1,6 @@
+html {
+  font-size: 16px;
+}
 body {
   margin: 0;
   padding: 0;
@@ -19,11 +22,27 @@ body {
 .border {
   border: solid 1px black;
 }
-.sprite{
+.sprite {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-
   max-width: 100%;
+  width: 10rem;
   height: auto;
+}
+.card-title {
+  font-family: Play;
+  font-style: normal;
+  font-weight: bold;
+}
+.container {
+  display: flex;
+}
+.tag {
+  background-color: rgba(0, 0, 0, 0.383);
+  text-align: center;
+  min-width: 1rem;
+  max-width: 4rem;
+  border-radius: 20px;
+  margin-top: 0.5rem;
 }
