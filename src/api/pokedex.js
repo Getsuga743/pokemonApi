@@ -6,9 +6,16 @@ async function fetchResource(url) {
   response = await response.json();
   return response;
 }
+const fetchPokemons = async (offset = 0, limit = 20) => {
+  let response = await fetch(
+    `https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${limit}`,
+  );
+  response = await response.json();
+  return response;
+};
 
-const PokemonPagination = async (url) => {
-  const fetch = await fetchResource(url);
+const PokemonPagination = async (offset = 0 , limit = 0) => {
+  const fetch = await fetchPokemons(offset , limit);
   const {
     count,
     pagination = { next: fetch.next, previous: fetch.previous },
