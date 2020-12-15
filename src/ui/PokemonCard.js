@@ -1,3 +1,25 @@
+function generateCard(name, spans, img) {
+  const content = ` 
+        <div class="d-flex row pokemon-card">
+          <div class="row w-50">
+          <div class="col border">
+           <h5 class="card-title text-start">${name}</h5>
+            <div class="d-flex flex-column"> 
+            ${spans}</div>
+          </div>
+           </div> 
+           <div class="col border img-container">
+      
+           <div class="border img-fluid">
+              <div class="d-flex flex-row-reverse mt-2"><span class="">#123</span></div>  
+           <img src=${img} class="sprite">
+          <div>
+          </div>
+          </div>
+        </div>`;
+  return content;
+}
+
 const pokemonCard = ({ name, types, sprite }) => {
   const $contenedor = document.createElement('div');
   $contenedor.className = 'justify-content-center m-3 width:auto';
@@ -6,20 +28,8 @@ const pokemonCard = ({ name, types, sprite }) => {
   typeDesc = Object.values(typeDesc).map(
     (el) => `<span class="tag">${el}</span>`,
   );
-  const content = ` 
-        <div class="card" style="width: 22.25rem;height:13.65; border-radius:20px;">
-          <div class="card-body row";>
-          <div class="card-body column border"> 
-          <h5 class="card-title text-start">${name}</h5>
-         <div class="d-flex flex-column"> 
-         ${typeDesc.toString().replace(',', ' , ')}</div>
-          </div>
-          <div class="img-fluid">   
-           <img src=${sprite} class="sprite">
-          <div>
-          </div>
-        </div>`;
-  $contenedor.innerHTML = content;
+  typeDesc = typeDesc.toString().replace(',', ' ');
+  $contenedor.innerHTML = generateCard(name, typeDesc, sprite);
   return $contenedor;
 };
 
